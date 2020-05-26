@@ -2,14 +2,26 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import login_required
 from . models import Blog, Comment
 from .forms import CommentForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
 # blog view
 def blog(request):
-    posts = Blog.objects.all()
+    posts = Blog.objects.all() # getting query from the database
+    page = request.GET.get('page', 1)
+    paginator = Paginator(posts, 2) # splitting the blog posts 2 posts per page
+    
+    try:
+        post_pagination = paginator.page(page)
+    except PageNotAnInteger:
+        post_pagination = paginator.page(1)
+    except EmptyPage:
+        post_pagination = paginator.page(paginator.num_pages)
+
     context = {
-        'blogs': posts
+        'blogs': posts,
+        'post_pagination': post_pagination
     }
     return render(request, 'blog/blog.html', context)
 
