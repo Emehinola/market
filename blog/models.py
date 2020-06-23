@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import User
+from django.shortcuts import reverse
 
 # Create your models here.
 
@@ -38,4 +39,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.author
+
+    def get_absolute_url(self):
+        return reverse("post-detail", kwargs={"pk": self.pk})
+    
       

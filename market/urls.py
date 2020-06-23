@@ -20,6 +20,7 @@ from marketplace import views as market_views
 from user import views as user_views
 from django.conf.urls.static import static
 from django.conf import settings
+from index import views as index_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,7 +33,7 @@ urlpatterns = [
     url(r'blog/', include('blog.urls')),
     url(r'register/', user_views.register, name='register'),
     url(r'login/', user_views.login_request, name='login'),
-    url('', include('index.urls'))
+    url(r'', index_views.home, name='home')
 ]
 
 if settings.DEBUG:

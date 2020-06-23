@@ -1,10 +1,23 @@
 from django.shortcuts import render
+from .models import Products
 
 # Create your views here.
 
 # market index view
 def market(request):
-    return render(request, 'marketplace/index.html')
+    products = Products.objects.all()
+    context = {
+        'products': products
+    }
+    return render(request, 'marketplace/index.html', context)
+
+# product checkout view
+def product(request, id):
+    product = Products.objects.get(id=id)
+    context = {
+        "product": product
+    }
+    return render(request, 'marketplace/product.html', context)
 
 # computer views
 def computer(request):
@@ -26,8 +39,9 @@ def fashion(request):
 def electronics(request):
     return render(request, 'marketplace/electronics.html')
 
-def product(request):
-    return render(request, 'marketplace/product.html')
+def checkout(request, id):
+    product = Products.objects.get(id=id)
+    return render(request, 'marketplace/checkout.html')
 
 def myShop(request):
     return render(request, 'marketplace/personal.html')

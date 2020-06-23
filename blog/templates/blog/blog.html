@@ -63,7 +63,7 @@
         <nav class="navbar navbar-expand-lg navbar-light">
           <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <a class="navbar-brand logo_h" href="index.html"
+            <a class="navbar-brand logo_h" href="{% url 'home' %}"
               ><img src="{% static 'index/images/logo.png' %}" alt=""
             /></a>
             <button
@@ -85,7 +85,7 @@
             >
               <ul class="nav navbar-nav menu_nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link" href="index.html">Home</a>
+                  <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="about-us.html">About</a>
@@ -157,7 +157,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="blog_left_sidebar">
-                    {% for blog in blogs %}
+                    {% for blog in posts %}
                         <article class="row blog_item">
                             <div class="col-md-3">
                                 <div class="blog_info text-right">
@@ -169,25 +169,25 @@
                                         <li><a href="#">{{blog.author}}<i class="ti-user"></i></a></li>
                                         <li>{{blog.created_at}}<i class="ti-calendar"></i></li>
                                         <li><a href="#">1.2M Views<i class="ti-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="ti-comment"></i></a></li>
+                                        <li><a href="#">{{ blogs.count }}<i class="ti-comment"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-md-9">
                                 <div class="blog_post">
-                                    <img width="720px" height="350px" src="{{blog.image.url}}" alt="">
+                                    <img width="720px" height="350px" src="{{ blog.image.url }}" alt="">
                                     <div class="blog_details">
-                                        <a href="/blog/single/{{blog.id}}">
+                                        <a href="{% url 'post-detail' blog.id %}">
                                             <h2>{{blog.title}}</h2>
                                         </a>
                                         <p>{{ blog.content|linebreaks|truncatechars:500 }}</p>
-                                        <a href="/blog/single/{{blog.id}}" class="blog_btn">Read More</a>
+                                        <a href="{% url 'post-detail' blog.id %}" class="blog_btn">Read More</a>
                                     </div>
                                 </div>
                             </div>
                         </article>
                         {% endfor %}
-                      {% comment %} {% if post_pagination.has_other_pages %}
+                      {% if post_pagination.has_other_pages %}
                         <nav class="blog-pagination justify-content-center d-flex">
                             <ul class="pagination">
                                 {% if page_pagination.has_previous %}
@@ -209,33 +209,33 @@
                                 {% endif %}
 
                                 {% for i in page_pagination.paginator.page_range %}
-                                {% if page_pagination.number == i %}
-                                	<li class="page-item active"><a href="#" class="page-link">{{ i }}</a></li>
-								{% else %}
-									<li class="page-item"><a href="#" class="page-link">{{ i }}</a></li>
-								{% endif %}
-								{% endfor %}
+                                  {% if page_pagination.number == i %}
+                                	  <li class="page-item active"><a href="#" class="page-link">{{ i }}</a></li>
+								                  {% else %}
+									                  <li class="page-item"><a href="#" class="page-link">{{ i }}</a></li>
+								                  {% endif %}
+								                {% endfor %}
 
-								{% if page_pagination.has_next %}
-                                <li class="page-item">
+								                {% if page_pagination.has_next %}
+                                  <li class="page-item">
                                     <a href="?page={{ post_pagination.next_page_number }}" class="page-link" aria-label="Next">
                                         <span aria-hidden="true">
                                             <i class="ti-angle-right"></i>
                                         </span>
                                     </a>
-                                </li>
-								{% else %}
-									<li class="page-item disabled">
+                                  </li>
+								                {% else %}
+									              <li class="page-item disabled">
                                     <a href="#" class="page-link" aria-label="Next">
                                         <span aria-hidden="true">
                                             <i class="ti-angle-right"></i>
                                         </span>
                                     </a>
                                 </li>
-								{% endif %}
+								                {% endif %}
                             </ul>
                         </nav>
-                      {% endif %} {% endcomment %}
+                      {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-4">
